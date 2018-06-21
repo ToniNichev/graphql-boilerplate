@@ -5,12 +5,16 @@ var { buildSchema } = require('graphql');
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
   type Query {
+    echoTest(word: String): String
     rollDice(numDice: Int!, numSides: Int): [Int]
   }
 `);
 
 // The root provides a resolver function for each API endpoint
 var root = {
+  echoTest: ({word}) => {
+    return `ECHO: ${word}`;
+  },
   rollDice: function ({numDice, numSides}) {
     var output = [];
     for (var i = 0; i < numDice; i++) {
