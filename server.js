@@ -5,6 +5,7 @@ var { buildSchema } = require('graphql');
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
   type Query {
+    test: String
     echoTest(word: String): String
     rollDice(numDice: Int!, numSides: Int): [Int]
   }
@@ -12,6 +13,9 @@ var schema = buildSchema(`
 
 // The root provides a resolver function for each API endpoint
 var root = {
+  test: () => {
+    return 'testing 123';
+  },
   echoTest: ({word}) => {
     return `ECHO: ${word}`;
   },
