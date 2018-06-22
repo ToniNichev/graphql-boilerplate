@@ -4,8 +4,47 @@ const cors = require('cors');
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
 //import { buildSchema } from 'graphql'; 
+var graphql = require('graphql');
 
 // Construct a schema, using GraphQL schema language
+
+/*
+var RandomDie = new graphql.GraphQLObjectType({
+  name: 'RandomDie',
+  fields: {
+    numSides: { type: graphql.GraphQLInt },
+    rollOnce: { type: graphql.GraphQLInt },
+    roll: {
+      fields: {
+        numRolls: { type: graphql.GraphQLInt }
+      },
+      type: graphql.GraphQLInt
+    }
+  }
+});
+
+
+// Define the Query type
+var queryType = new graphql.GraphQLObjectType({
+  name: 'Query',
+  fields: {
+    getDie: {
+      type: RandomDie,
+      // `args` describes the arguments that the `user` query accepts
+      args: {
+        numSides: { type: graphql.GraphQLInt }
+      },
+      resolve: function (_, {numSides}) {
+        return new RandomDieClass(numSides || 6);
+      }
+    }
+  }
+});
+
+var schema = new graphql.GraphQLSchema({query: queryType});
+*/
+
+
 var schema = buildSchema(`
   type RandomDie {
     numSides: Int!
@@ -17,6 +56,7 @@ var schema = buildSchema(`
     getDie(numSides: Int): RandomDie
   }
 `);
+
 
 // This class implements the RandomDie GraphQL type
 class RandomDie {
