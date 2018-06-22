@@ -1,31 +1,49 @@
 var express = require('express');
 const cors = require('cors');
-
+// var schema = require('./src/schema/roll');
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
+//import { buildSchema } from 'graphql'; 
 
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
+  type RandomDie {
+    numSides: Int!
+    rollOnce: Int!
+    roll(numRolls: Int!): [Int]
+  }
+
   type Query {
-    test: String
-    echoTest(word: String): String
-    rollDice(numDice: Int!, numSides: Int): [Int]
+    getDie(numSides: Int): RandomDie
   }
 `);
 
-// The root provides a resolver function for each API endpoint
-var root = {
-  echoTest: ({word}) => {
-    return `ECHO: ${word}`;
-  },
-  rollDice: function ({numDice, numSides}) {
+// This class implements the RandomDie GraphQL type
+class RandomDie {
+  constructor(numSides) {
+    this.numSides = numSides;
+  }
+
+  rollOnce() {
+    return 1 + Math.floor(Math.random() * this.numSides);
+  }
+
+  roll({numRolls}) {
     var output = [];
-    for (var i = 0; i < numDice; i++) {
-      output.push(1 + Math.floor(Math.random() * (numSides || 6)));
+    for (var i = 0; i < numRolls; i++) {
+      output.push(this.rollOnce());
     }
     return output;
   }
-};
+}
+
+// The root provides the top-level API endpoints
+var root = {
+  getDie: function ({numSides}) {
+    return new RandomDie(numSides || 6);
+  }
+}
+
 
 var app = express();
 app.use('/graphql', cors(), graphqlHTTP({
