@@ -29,13 +29,16 @@ var queryType = new graphql.GraphQLObjectType({
         return dogs[id]
       }
     },
-    getAnotherDog: {
+    getDogsByAge: {
       type: new GraphQLList(Dog),
       args: {
-        id: { type: graphql.GraphQLID }
+        age: { type: graphql.GraphQLInt }
       },
-      resolve: function (_, {id}) {
-        return [dogs[id], dogs[id]];
+      resolve: function (_, {age}) {
+        const result = dogs.filter((dog) => {
+          return dog.age < 23;
+        });
+        return result;
       }
     }
   }
