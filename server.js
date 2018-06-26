@@ -1,86 +1,68 @@
 var express = require('express');
 const cors = require('cors');
-// var schema = require('./src/schema/roll');
 var graphqlHTTP = require('express-graphql');
 var { buildSchema } = require('graphql');
 //import { buildSchema } from 'graphql'; 
 var graphql = require('graphql');
 
-// Construct a schema, using GraphQL schema language
+var dogs = require('./src/schema/dogs');
+
 
 /*
-var RandomDie = new graphql.GraphQLObjectType({
-  name: 'RandomDie',
+var schema = buildSchema(`
+  type RandomDie {
+    rollOnce: Int!
+    roll(numRolls: Int!): [Int]
+  }
+
+  type Dog {
+    id: ID!,
+    name: String!,
+    age: Int
+  }
+
+  type Query {
+    getDie(numSides: Int): RandomDie
+    getDog(id: ID): Dog
+  }
+`);
+*/
+
+
+var Dog = new graphql.GraphQLObjectType({
+  name: 'Dog',
   fields: {
-    numSides: { type: graphql.GraphQLInt },
-    rollOnce: { type: graphql.GraphQLInt },
-    roll: {
-      fields: {
-        numRolls: { type: graphql.GraphQLInt }
-      },
-      type: graphql.GraphQLInt
-    }
+    id: { type: graphql.GraphQLID },
+    name: { type: graphql.GraphQLString },
+    age: { type: graphql.GraphQLInt }
   }
 });
-
 
 // Define the Query type
 var queryType = new graphql.GraphQLObjectType({
   name: 'Query',
   fields: {
-    getDie: {
-      type: RandomDie,
+    getDog: {
+      type: Dog,
       // `args` describes the arguments that the `user` query accepts
       args: {
-        numSides: { type: graphql.GraphQLInt }
+        id: { type: graphql.GraphQLID }
       },
-      resolve: function (_, {numSides}) {
-        return new RandomDieClass(numSides || 6);
+      resolve: function (_, {id}) {
+        return dogs[id]
       }
     }
   }
 });
 
 var schema = new graphql.GraphQLSchema({query: queryType});
-*/
 
-
-var schema = buildSchema(`
-  type RandomDie {
-    numSides: Int!
-    rollOnce: Int!
-    roll(numRolls: Int!): [Int]
-  }
-
-  type Query {
-    getDie(numSides: Int): RandomDie
-  }
-`);
-
-
-// This class implements the RandomDie GraphQL type
-class RandomDie {
-  constructor(numSides) {
-    this.numSides = numSides;
-  }
-
-  rollOnce() {
-    return 1 + Math.floor(Math.random() * this.numSides);
-  }
-
-  roll({numRolls}) {
-    var output = [];
-    for (var i = 0; i < numRolls; i++) {
-      output.push(this.rollOnce());
-    }
-    return output;
-  }
-}
 
 // The root provides the top-level API endpoints
 var root = {
-  getDie: function ({numSides}) {
-    return new RandomDie(numSides || 6);
+
+  getDog: ({id}) => {
+    return dogs[id];
   }
 }
 
@@ -91,5 +73,5 @@ app.use('/graphql', cors(), graphqlHTTP({
   rootValue: root,
   graphiql: true,
 }));
-app.listen(4000);
-console.log('Running a GraphQL API server at localhost:4000/graphql');
+app.listen(4001);
+console.log('Running a GraphQL API server at localhost:4001/graphql');
