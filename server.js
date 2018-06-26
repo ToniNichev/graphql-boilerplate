@@ -1,33 +1,10 @@
 var express = require('express');
 const cors = require('cors');
 var graphqlHTTP = require('express-graphql');
-var { buildSchema } = require('graphql');
-//import { buildSchema } from 'graphql'; 
+var { buildSchema, GraphQLList } = require('graphql');
 var graphql = require('graphql');
 
 var dogs = require('./src/schema/dogs');
-
-
-/*
-var schema = buildSchema(`
-  type RandomDie {
-    rollOnce: Int!
-    roll(numRolls: Int!): [Int]
-  }
-
-  type Dog {
-    id: ID!,
-    name: String!,
-    age: Int
-  }
-
-  type Query {
-    getDie(numSides: Int): RandomDie
-    getDog(id: ID): Dog
-  }
-`);
-*/
-
 
 var Dog = new graphql.GraphQLObjectType({
   name: 'Dog',
@@ -51,6 +28,15 @@ var queryType = new graphql.GraphQLObjectType({
       resolve: function (_, {id}) {
         return dogs[id]
       }
+    },
+    getAnotherDog: {
+      type: new GraphQLList(Dog),
+      args: {
+        id: { type: graphql.GraphQLID }
+      },
+      resolve: function (_, {id}) {
+        return [dogs[id], dogs[id]];
+      }
     }
   }
 });
@@ -58,19 +44,9 @@ var queryType = new graphql.GraphQLObjectType({
 var schema = new graphql.GraphQLSchema({query: queryType});
 
 
-// The root provides the top-level API endpoints
-var root = {
-
-  getDog: ({id}) => {
-    return dogs[id];
-  }
-}
-
-
 var app = express();
 app.use('/graphql', cors(), graphqlHTTP({
   schema: schema,
-  rootValue: root,
   graphiql: true,
 }));
 app.listen(4001);
