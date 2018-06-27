@@ -4,8 +4,11 @@ var graphqlHTTP = require('express-graphql');
 var { buildSchema, GraphQLList } = require('graphql');
 var graphql = require('graphql');
 
-var dogs = require('./src/schema/dogs');
+// var dogs = require('./src/schema/dogs');
+var schema = require('./src/schema');
 
+
+/*
 var Dog = new graphql.GraphQLObjectType({
   name: 'Dog',
   fields: {
@@ -15,36 +18,42 @@ var Dog = new graphql.GraphQLObjectType({
   }
 });
 
+
+const dogsQuery = {
+  getDog: {
+    type: Dog,
+    // `args` describes the arguments that the `user` query accepts
+    args: {
+      id: { type: graphql.GraphQLID }
+    },
+    resolve: function (_, {id}) {
+      return dogs[id];
+    }
+  },
+  getDogsByAge: {
+    type: new GraphQLList(Dog),
+    args: {
+      age: { type: graphql.GraphQLInt }
+    },
+    resolve: function (_, {age}) {
+      const result = dogs.filter((dog) => {
+        return dog.age < 23;
+      });
+      return result;
+    }
+  }
+}
+*/
+
+/*
 // Define the Query type
 var queryType = new graphql.GraphQLObjectType({
   name: 'Query',
-  fields: {
-    getDog: {
-      type: Dog,
-      // `args` describes the arguments that the `user` query accepts
-      args: {
-        id: { type: graphql.GraphQLID }
-      },
-      resolve: function (_, {id}) {
-        return dogs[id]
-      }
-    },
-    getDogsByAge: {
-      type: new GraphQLList(Dog),
-      args: {
-        age: { type: graphql.GraphQLInt }
-      },
-      resolve: function (_, {age}) {
-        const result = dogs.filter((dog) => {
-          return dog.age < 23;
-        });
-        return result;
-      }
-    }
-  }
+  fields: {...dogsQuery, ...catsQuery }
 });
 
 var schema = new graphql.GraphQLSchema({query: queryType});
+*/
 
 
 var app = express();

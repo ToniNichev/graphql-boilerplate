@@ -1,15 +1,11 @@
-import {
-  GraphQLObjectType,
-  GraphQLSchema,
-} from 'graphql';
+let types = require('./types');
+var graphql = require('graphql');
 
-import types from './types';
-import queries from './queries';
 
-export default new GraphQLSchema({
-  types: Object.values(types),
-  query: new GraphQLObjectType({
-    name: 'Query',
-    fields: queries,
-  }),
+
+var queryType = new graphql.GraphQLObjectType({
+  name: 'Query',
+  fields: {...types }
 });
+
+module.exports = new graphql.GraphQLSchema({query: queryType});
