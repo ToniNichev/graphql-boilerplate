@@ -1,17 +1,18 @@
 const graphql = require('graphql');
-const cats = require('../../models/cats');
-const CatType = require('../types/cats');
+const dogs = require('../../models/dogs');
+const DogType = require('../types/dogs');
     
 module.exports = {
-    getCat: {
-      type: CatType,
+    getDog: {
+      type: DogType,
       args: {
         id: { type: graphql.GraphQLID }
       },
       resolve: function (_, {id}) {
-        return cats[id];
+        return dogs[id];
       }
     },
   }
+
 
   

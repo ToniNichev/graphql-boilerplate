@@ -1,11 +1,11 @@
-let types = require('./types');
-var graphql = require('graphql');
+const graphql = require('graphql');
+const types = require('./queries');
 
-
-
-var queryType = new graphql.GraphQLObjectType({
+var rootQuery = new graphql.GraphQLObjectType({
   name: 'Query',
   fields: {...types }
 });
 
-module.exports = new graphql.GraphQLSchema({query: queryType});
+module.exports = new graphql.GraphQLSchema({
+  query: rootQuery
+});

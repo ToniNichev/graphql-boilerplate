@@ -1,34 +1,32 @@
-const dogs = [  // Dummy data
+module.exports = [  // Dummy data
   {
     id: 1,
-    name: 'Brian',
-    age: '21',
+    name: 'MiauMiau',
+    age: '15',
     gender: 'M'
   },
   {
     id:2,
     name: 'Kim',
-    age: '22',
+    age: '7',
     gender: 'M'
   },
   {
     id:3,
     name: 'Joseph',
-    age: '23',
+    age: '2',
     gender: 'M'
   },
   {
     id:3,
     name: 'Faith',
-    age: '23',
+    age: '14',
     gender: 'F'
   },
   {
     id:5,
     name: 'Joy',
-    age: '25',
+    age: '1',
     gender: 'F'
   }
 ];
-
-module.exports = dogs;
