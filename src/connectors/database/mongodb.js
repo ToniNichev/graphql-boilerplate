@@ -44,7 +44,7 @@ module.exports = {
 			db.collection(collectionName).find(searchObject).toArray(function(err, result) {
 				if (err) throw err;
 				if(callback != null) {
-					callback(result);
+					callback(err, result);
 				}
 			});
 		});
