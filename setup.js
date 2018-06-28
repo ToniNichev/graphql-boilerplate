@@ -1,26 +1,9 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
- 
-// Connection URL
-const url = 'mongodb://localhost:27017';
- 
-// Database Name
-const dbName = 'myproject';
- 
-// Use connect method to connect to the server
-MongoClient.connect(
-  url, function(err, client) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
- 
-  const db = client.db(dbName);
+const mongoDB = require('./src/connectors/database/mongodb');
+const dogs = require('./src/models/mock_data/dogs');
 
-  docObject = {one: "one11", two: "two222"}
 
-  db.collection("test").insert(docObject, function(err, res) {
-    if (err) throw err;
-  });
+//mongoDB.add('Dogs', dogs, null);
 
-  
-  client.close();
+let result = mongoDB.find({}, 'Dogs', function(result){
+  console.log(result);
 });

@@ -1,77 +1,53 @@
-var MongoClient = require('mongodb').MongoClient;
-var url = '';
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
 
-/*
-if(typeof global.conf.mainConfig.databases.mongodb == "undefined") {
-	global.registry.logger.throw('No mongodb config object in global.conf.mainConfig.databases !');
-}
-var _cfg = global.conf.mainConfig.databases.mongodb
-*/
+// Connection URL
+const url = 'mongodb://localhost:27017';
+ 
+// Database Name
+const dbName = 'myproject';
+ 
 
-const _cfg = {
-    "connection_url" : "mongodb://localhost:27017/myproject"
-  }
+function connect(callback) {
+  MongoClient.connect(
+    url, 
+    { useNewUrlParser: true },
+    function(err, client) {
+      assert.equal(null, err);
+      if(err == null) {
+        const db = client.db(dbName);
+        callback(db);
+      }
+      else {
+        console.log("Can't connect to mongodb!");
+      }
 
-function init(onConnectFunction) {
-	url = url || _cfg.connection_url
-	MongoClient.connect(url, function(err, db) {
-		onConnectFunction(err, db);
-	});
+      client.close();
+  });
 }
 
 module.exports = {
 
-	createCollection: function (docObject, collectionName, callback) {
-		init(function(err, db) {
-		  if (err) throw err;
-		  db.collection(collectionName).insert(docObject, function(err, res) {
-		    if (err) throw err;
-		    db.close();
-				var data = {'error': err}
-				callback(data)
-		  });
-		});
-  },
-
-	find: function(searchObject, collectionName, callback) {
-		init(function(err, db) {
-		  if (err) throw err;
-		  db.collection(collectionName).find(searchObject).toArray(function(err, result) {
-		    if (err) throw err;
-		    db.close();
-				var data = {'error': err, 'result': result}
-				callback(data)
-		  });
-		});
-  },
-
-
-	update: function(matchObject, updateObject, collectionName, callback) {
-		init(function(err, db) {
-			if (err) throw err;
-			db.collection(collectionName).update(matchObject, {$set:updateObject}, function(err, result){
-				var data = {'error': err, 'result': result[0]}
-				callback(data)
-			})
+  add: (collectionName, docObject, callback) => {
+    connect(function(db) {        
+        db.collection(collectionName).insert(docObject, function(err, res) {
+					if (err) throw err;
+					if(callback != null) {
+						callback();
+					}
+        });
+    });
+	},
+	
+	find: (searchObject, collectionName, callback) => {
+    connect(function(db) {        
+			db.collection(collectionName).find(searchObject).toArray(function(err, result) {
+				if (err) throw err;
+				if(callback != null) {
+					callback(result);
+				}
+			});
 		});
 	},
-
-	removeFromCollection: function(matchObject, collectionName, callback) {
-		init(function(err, db) {
-		  if (err) throw err;
-		  db.collection(collectionName).remove(matchObject, function(err, res) {
-		    if (err) throw err;
-		    db.close();
-				var data = {'error': err}
-				callback(data)
-		  });
-		});
-	},
-
-	getObjectId: function(objectIdString) {
-		var ObjectID = require('mongodb').ObjectID;
-		var o_id = new ObjectID(objectIdString);
-		return o_id;
-	},
-
 }
+
