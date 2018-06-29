@@ -3,15 +3,14 @@ const DogType = require('../types/dogs');
 const mongoDB = require('../../connectors/database/mongodb');
     
 module.exports = {
-    getDog: {
+    getDogByBreed: {
       type: DogType,
       args: {
-        id: { type: graphql.GraphQLID }
+        breed: { type: graphql.GraphQLString }
       },
-      resolve: function (_, {id}) {      
+      resolve: function (_, {breed}) {      
         return new Promise((resolve, reject) => {
-          const _id = parseInt(id);
-          mongoDB.find({id: _id}, 'Dogs', function(err, result) {
+          mongoDB.find({breed: breed}, 'Dogs', function(err, result) {
             if(err) 
               reject(err);
             else 
