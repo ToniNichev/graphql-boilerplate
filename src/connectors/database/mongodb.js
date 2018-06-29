@@ -28,7 +28,7 @@ function connect(callback) {
 
 module.exports = {
 
-  add: (collectionName, docObject, callback) => {
+  add: (docObject, collectionName, callback) => {
     connect(function(db) {        
         db.collection(collectionName).insert(docObject, function(err, res) {
 					if (err) throw err;

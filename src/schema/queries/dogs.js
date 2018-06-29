@@ -1,5 +1,4 @@
 const graphql = require('graphql');
-const dogs = require('../../models/dogs');
 const DogType = require('../types/dogs');
 const mongoDB = require('../../connectors/database/mongodb');
     
