@@ -17,9 +17,22 @@ module.exports = {
               resolve(result[0]);                  
           });
         }); 
-
+      },
     },
-  }
+
+    getDogsList: {
+      type: graphql.GraphQLList(DogType),
+      resolve: function (_) {      
+        return new Promise((resolve, reject) => {
+          mongoDB.find({}, 'Dogs', function(err, result) {
+            if(err) 
+              reject(err);
+            else 
+              resolve(result);                  
+          });
+        }); 
+      },
+    }
 }
 
 
