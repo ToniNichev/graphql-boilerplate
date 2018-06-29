@@ -6,19 +6,17 @@ module.exports = {
     addDog: {
       type: graphql.GraphQLBoolean,
       args: {
-        id: { type: graphql.GraphQLID },
-        name: { type: graphql.GraphQLString },
-        age: { type: graphql.GraphQLInt },
-        gender: { type: graphql.GraphQLString },
+        id: { type: graphql.GraphQLString },
+        breed: { type: graphql.GraphQLString },
+        displayImage: { type: graphql.GraphQLString },
       },
-      resolve: function (_, {id, name, age, gender}) {      
+      resolve: function (_, {id, breed, displayImage}) {      
         return new Promise((resolve, reject) => {
 
           const dog = {
             id: id,
-            name: name,
-            age: age,
-            gender: gender
+            breed: breed,
+            displayImage: displayImage
           }
 
           mongoDB.add(dog, 'Dogs', function(err, result) {

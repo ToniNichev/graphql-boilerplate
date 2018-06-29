@@ -4,27 +4,27 @@ example query:
 
 * Add Dog
 
-  query queryLabel($id:ID!, $name:String!, $age:Int!, $gender: String) {
-    addDog(id: $id, name: $name, age:$age, gender:$gender )
+  query queryLabel($id:String!, $breed:String!, $displayImage: String!) {
+    addDog(id: $id, breed: $breed, displayImage:$displayImage )
   }
 
   {
-    "id": 7,
-    "name": "test",
-    "age": 12,
-    "gender": "M"
+    "id": "qasdfwaqEF",
+    "breed": "test",
+    "displayImage": "http://test.jpg"
   }
 
-* Find Dog
+* Find Dog by breed
 
-query queryLabel($id:ID!) {
-  getDog(id: $id) {
-    id
-    name
-    age
+  query getDogByBreed($breed: String) 
+  {
+    getDogByBreed(breed: $breed) {
+      id
+      breed
+      displayImage
+    }
   }
-}
 
-{
-  "id": 1
-}
+  {
+    "breed": "labrador"
+  }
