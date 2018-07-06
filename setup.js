@@ -3,5 +3,4 @@ const dogs = require('./src/models/mock_data/dogs');
 const pages = require('./src/models/mock_data/pages');
 
 mongoDB.add(dogs, 'Dogs', null);
-
 mongoDB.add(pages, 'Pages', null);
