@@ -1,6 +1,6 @@
 module.exports = [
   {
-    id: 'home',
+    id: 'gallery',
     url: '/gallery',
     layout: [ 
       {
