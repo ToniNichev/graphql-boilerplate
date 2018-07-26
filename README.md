@@ -1,3 +1,4 @@
+TEST
 # graphql-boilerplate
 
 example query:
