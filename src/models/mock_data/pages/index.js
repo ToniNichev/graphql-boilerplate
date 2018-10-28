@@ -3,6 +3,7 @@ const dogsCatalog = require('./dogs-catalog');
 const todo = require('./todo');
 const about = require('./about');
 const gallery = require('./gallery');
+const greetings = require('./greetings');
 const ChartComponent = require('./ChartComponent');
 
 
@@ -11,5 +12,6 @@ module.exports = home.concat(
     todo, 
     about, 
     gallery,
-    ChartComponent
+    ChartComponent,
+    greetings
 );

@@ -18,15 +18,7 @@ module.exports = [
               name: "Home"
             }
           ] 
-        },  
-        {
-          span: 12,
-          components:[
-            {
-              name: "About"
-            }
-          ] 
-        },                         
+        }                       
       ]
     }
   ]
