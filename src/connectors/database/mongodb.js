@@ -48,6 +48,12 @@ module.exports = {
 				}
 			});
 		});
-	},
+  },
+  
+  dropDB: (DBName) => {
+    connect(function(db) {  
+      db.dropDatabase();
+    });
+  }
 }
 
