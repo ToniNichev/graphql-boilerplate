@@ -30,4 +30,9 @@ example query:
   }
 
 
-test
+* Installing and running:
+- make sure that you have mongodb up and running.
+- execute in the root folder: 
+1. npm/yarn install
+2. npm run setup
+3. npm start.
