@@ -36,3 +36,5 @@ example query:
 1. npm/yarn install
 2. npm run setup
 3. npm start.
+
+* Front end react project that demonstrates GraphQL quering : https://github.com/ToniNichev/webpack-react-boilerplate/tree/master/src 
