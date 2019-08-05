@@ -1,7 +1,7 @@
-const express = require('express');
-const cors = require('cors');
-const graphqlHTTP = require('express-graphql');
-const schema = require('./src/schema');
+import express from 'express';
+import cors from 'cors';
+import graphqlHTTP from 'express-graphql';
+import schema  from './src/schema';
 
 // Your own super cool function
 var logger = function(req, res, next) {

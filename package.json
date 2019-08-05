@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js --inspect=9229",
+    "start": "babel-node server.js",
     "setup": "node setup.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,5 +18,13 @@
     "graphql": "^0.13.2",
     "mongodb": "^3.1.0",
     "nodemon": "^1.17.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/node": "^7.5.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.5.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0"
   }
 }
